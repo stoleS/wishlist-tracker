@@ -2,12 +2,20 @@ require('dotenv').config()
 const express = require('express')
 const morgan = require('morgan')
 const bodyParser = require('body-parser')
+const cors = require('cors')
+const helmet = require('helmet')
 const {
   notFoundCatcher,
   errorHandler
-} = require('./src/utils/middlewares/error-handlers.js')
+} = require('./src/utils/middlewares/errors.js')
 const app = express()
+
+/* -------------------------------------------------------------------------- */
+/*                            Enviroment variables                            */
+/* -------------------------------------------------------------------------- */
+
 const port = process.env.PORT
+const prefix = process.env.API_PREFIX
 
 /* -------------------------------------------------------------------------- */
 /*                               Route handlers                               */
@@ -15,11 +23,14 @@ const port = process.env.PORT
 
 const games = require('./src/routes/games')
 const stores = require('./src/routes/stores')
+const users = require('./src/routes/users')
 
 /* -------------------------------------------------------------------------- */
 /*                                 Middlewares                                */
 /* -------------------------------------------------------------------------- */
 
+app.use(helmet())
+app.use(cors())
 app.use(morgan('dev'))
 app.use(bodyParser.json())
 
@@ -27,8 +38,9 @@ app.use(bodyParser.json())
 /*                                   Routes                                   */
 /* -------------------------------------------------------------------------- */
 
-app.use('/api/v1/games', games)
-app.use('/api/v1/stores', stores)
+app.use(`${prefix}/games`, games)
+app.use(`${prefix}/stores`, stores)
+app.use(`${prefix}/users`, users)
 
 /* -------------------------------------------------------------------------- */
 /*                               Error handlers                               */
