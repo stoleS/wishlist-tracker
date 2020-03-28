@@ -1,3 +1,6 @@
+const { extractBgImageUrl } = require('../../utils/string-helpers')
+const { GAMES_BASE_URL } = require('../../utils/constants')
+
 const gameScrapeBuilder = (provider, $) => {
   let data
   switch (provider) {
@@ -12,11 +15,16 @@ const gameScrapeBuilder = (provider, $) => {
 }
 
 const GameS = $ => {
+  const price = $('.current-price')
+    .first()
+    .text()
+    .trim()
+  const img = `${GAMES_BASE_URL}${extractBgImageUrl(
+    $('.product-image-wrapper > div').css('background-image')
+  )}`
   return {
-    price: $('.current-price')
-      .first()
-      .text()
-      .trim()
+    price,
+    img
   }
 }
 
