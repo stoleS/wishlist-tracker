@@ -1,13 +1,26 @@
 const express = require('express')
 const asyncMiddleware = require('../utils/middlewares/async')
+const { validateBody } = require('../utils/middlewares/validation')
 const router = express.Router()
 
-/* -------------------------- Controller functions -------------------------- */
+/* -------------------------------------------------------------------------- */
+/*                            Controller functions                            */
+/* -------------------------------------------------------------------------- */
 
-const { getGameData } = require('../controllers/games')
+const { scrapeGameData } = require('../controllers/games')
+
+/* -------------------------------------------------------------------------- */
+/*                             Validation schemas                             */
+/* -------------------------------------------------------------------------- */
+
+const { scrapeSchema } = require('../utils/schemas/games.js')
 
 /* ------------------ Scrape game data from provider by url ----------------- */
 
-router.post('/fetch', asyncMiddleware(getGameData))
+router.post(
+  '/scrape',
+  validateBody(scrapeSchema),
+  asyncMiddleware(scrapeGameData)
+)
 
 module.exports = router

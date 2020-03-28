@@ -1,4 +1,4 @@
-const createResponse = (error, status, res, body) => {
+const createResponse = (error, res, status, body) => {
   if (error) {
     res.status(status).json({ error })
   } else {
