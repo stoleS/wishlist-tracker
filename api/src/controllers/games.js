@@ -10,7 +10,7 @@ const { getGameData } = require('../services/games/scrape')
 
 const scrapeGameData = async (req, res, next) => {
   const { url } = req.body
-  const gameData = getGameData(url)
+  const gameData = await getGameData(url)
   createResponse(null, res, 200, gameData)
 }
 
