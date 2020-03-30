@@ -1,9 +1,15 @@
 const Joi = require('@hapi/joi')
 
-const scrapeSchema = Joi.object({
+const scrapeSingleGameSchema = Joi.object({
   url: Joi.string()
     .uri()
     .required()
 })
 
-module.exports = { scrapeSchema }
+const scrapeAllGamesSchema = Joi.object({
+  urls: Joi.array()
+    .items(Joi.string().uri())
+    .required()
+})
+
+module.exports = { scrapeSingleGameSchema, scrapeAllGamesSchema }

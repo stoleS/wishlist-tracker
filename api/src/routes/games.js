@@ -7,20 +7,29 @@ const router = express.Router()
 /*                            Controller functions                            */
 /* -------------------------------------------------------------------------- */
 
-const { scrapeGameData } = require('../controllers/games')
+const { scrapeGameData, scrapeAllGamesData } = require('../controllers/games')
 
 /* -------------------------------------------------------------------------- */
 /*                             Validation schemas                             */
 /* -------------------------------------------------------------------------- */
 
-const { scrapeSchema } = require('../utils/schemas/games.js')
+const {
+  scrapeSingleGameSchema,
+  scrapeAllGamesSchema
+} = require('../utils/schemas/games.js')
 
 /* ------------------ Scrape game data from provider by url ----------------- */
 
 router.post(
-  '/scrape',
-  validateBody(scrapeSchema),
+  '/scrape-single',
+  validateBody(scrapeSingleGameSchema),
   asyncMiddleware(scrapeGameData)
+)
+
+router.post(
+  '/scrape-all',
+  validateBody(scrapeAllGamesSchema),
+  asyncMiddleware(scrapeAllGamesData)
 )
 
 module.exports = router

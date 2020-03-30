@@ -1,7 +1,7 @@
 const cheerio = require('cheerio')
 const { gameScrapeBuilder } = require('./schemas')
 
-const scrape = async (provider, html) => {
+const scrape = async (html, provider) => {
   try {
     const $ = cheerio.load(html)
     const data = gameScrapeBuilder(provider, $)

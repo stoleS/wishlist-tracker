@@ -14,4 +14,8 @@ const scrapeGameData = async (req, res, next) => {
   createResponse(null, res, 200, gameData)
 }
 
-module.exports = { scrapeGameData }
+const scrapeAllGamesData = async (req, res, next) => {
+  createResponse(null, res, 200, {})
+}
+
+module.exports = { scrapeGameData, scrapeAllGamesData }
