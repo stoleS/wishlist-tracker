@@ -4,9 +4,11 @@ const extractBgImageUrl = css => {
   return css.substring(4, css.length - 1)
 }
 
-const extractPrice = price => {
+const extractPrice = (price, options) => {
+  const { slice } = options
   const sanitized = price.trim().replace(/\D/g, '')
-  return sanitized.substring(0, sanitized.length - 2)
+  slice && sanitized.substring(0, sanitized.length - 2)
+  return sanitized
 }
 
 const extractProvider = url => {

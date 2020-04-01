@@ -4,6 +4,10 @@ const {
 } = require('../../utils/string-helpers')
 const { GAMES_BASE_URL } = require('../../utils/constants')
 
+/* -------------------------------------------------------------------------- */
+/*       Depending on provider/store from url choose right scrape schema      */
+/* -------------------------------------------------------------------------- */
+
 const gameScrapeBuilder = (provider, $) => {
   let data
   switch (provider) {
@@ -13,12 +17,17 @@ const gameScrapeBuilder = (provider, $) => {
     case 'gamecentar':
       data = GameCentar($)
       break
+    case 'computerlandshop':
+      data = ComputerLandShop($)
+      break
     default:
       data = {}
       break
   }
   return data
 }
+
+/* ---------------------- Extract data from GameS store --------------------- */
 
 const GameS = $ => {
   const price = extractPrice(
@@ -36,6 +45,8 @@ const GameS = $ => {
   }
 }
 
+/* ------------------- Extract data from GameCentar store ------------------- */
+
 const GameCentar = $ => {
   const price = extractPrice(
     $('.price-info')
@@ -50,6 +61,14 @@ const GameCentar = $ => {
     price,
     img
   }
+}
+
+/* ---------------- Extract data from ComputerLandShop store ---------------- */
+
+const ComputerLandShop = $ => {
+  const price = extractPrice($('#buy-price > h1').text(), { slice: false })
+  const img = $('.main_image > img').attr('src')
+  return { price, img: img.replace('details/', '') }
 }
 
 module.exports = { gameScrapeBuilder, GameS, GameCentar }
